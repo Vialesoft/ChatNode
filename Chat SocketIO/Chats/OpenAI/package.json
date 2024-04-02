@@ -4,8 +4,17 @@
   "description": "openai chat logic",
   "main": "index.js",
   "scripts": {
+    "start": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "node-fetch": "2.7.0",
+    "require": "^2.4.20"
+  },
+  "type":"commonjs",
+  "devDependencies": {
+    "nodemon": "^3.0.3"
+  }
 }
