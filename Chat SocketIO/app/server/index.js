@@ -1,9 +1,15 @@
 var express = require('express');
+const fetch = require('node-fetch');
+const helpers = require('../../Helpers/helpers');
 const { posix } = require('path');
 var app = express();
 var server = require('http').Server(app);
+const openAI = require('../../Chats/OpenAI/index');
 
 var io = require('socket.io')(server);
+
+// Config Server
+var serverConfig = helpers.readFile("configAPI", "JSON");
 
 app.use(express.static('client'));
 
@@ -11,28 +17,7 @@ app.get('/hola-mundo', function(req, res) {
     res.status(200).send("Hola mundo soy el get");
 });
 
-var messages = [{
-    id: 1,
-    texto: "El Bot te da la bienvenida",
-    nickname: "SoyElBot"
-}];
-
-var possibleAnswers = [
-    "No te contesto",
-    "Te contesto",
-    "Pah mono, ni idea man",
-    "Creo que te desubicaste",
-    "Esto es Peñarol",
-    "Marchanta",
-    "Comprate un choripán",
-    "¿Vos sacaste a bailar a la Morocha?",
-    "¿Y si te callás un poco?",
-    "Fah no, ni ahí loca",
-    "Mirá, ni idea, ChatGPT te puede ayudar",
-    "¿En serio sos tan pelotude?",
-    "Daaaa media pilaaa",
-    "Qué paja estarte contestando"
-];
+var messages = [];
 
 io.on('connection', function(socket) {
     console.log("El nodo de socket es un socket del nodo" + socket.handshake.address);
@@ -50,13 +35,8 @@ server.listen(6677, function(){
 function addMessage(message) {
     messages.push(message);
     io.sockets.emit("messages", [message]);
-    
-    answerMessage(message);
-}
 
-function answerMessage(message){
-    let answer;
-    let answerPos = getRandomNumber();
+    let answer = openAI.sendMsg(message);
 
     answer = {
         nickname: "SoyElBot",
@@ -65,8 +45,4 @@ function answerMessage(message){
     messages.push(answer);
 
     io.sockets.emit("messages", [answer]);
-}
-
-function getRandomNumber(){
-    return Math.floor(Math.random() * possibleAnswers.length);
 }
