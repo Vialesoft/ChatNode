@@ -1,4 +1,4 @@
-const fs = require("node:fs");
+const fs = require("fs");
 
 /*
     Reads a file and returns it. If type's null, return a string with the file content
