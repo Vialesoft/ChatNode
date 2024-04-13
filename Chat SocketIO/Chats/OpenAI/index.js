@@ -1,10 +1,11 @@
-const fetch = require('node-fetch');
+//const fetch = require('node-fetch');
 const helpers = require('../../Helpers/helpers');
+const path = require("path");
 
-// Tu API key de OpenAI
-var openAIConfig = helpers.readFile("configAPI", "JSON");
+// Config for OpenAI Chat
+var openAIConfig = helpers.readFile(path.join(__dirname, 'configAPI'), "JSON");
 
-/* - Interfaz - */
+/* - Interface - */
 async function sendMsg(msg) {
     let answer = await askChatGPT(msg);
     console.log(answer);
@@ -12,9 +13,9 @@ async function sendMsg(msg) {
     return answer;
 }
 
-/* LÓGICA OPEN AI */
+/* OPEN AI LOGIC */
 
-// Función para enviar preguntas a la API de ChatGPT
+// Sending messages to Chat GPT
 async function askChatGPT(question) {
     try {
         const response = await fetch(openAIConfig.urlFetch, {
@@ -39,21 +40,22 @@ async function askChatGPT(question) {
 
         const data = await response.json();
 
-        // Comprobar si data.choices existe y tiene al menos un elemento
+        // If data.choices do exists and has at least one element
         if (data.choices && data.choices.length > 0) {
-            //console.log(JSON.stringify(data.choices[0], null, 2));
             return data.choices[0].message.content.trim();
-
         } else {
             console.error('No se recibieron choices en la respuesta:', data);
+
             return "Lo siento, no pude obtener una respuesta. Inténtalo de nuevo.";
         }
-    } catch (error) {
-        console.error('Error al hacer la solicitud a la API de OpenAI:', error);
+    } catch (err) {
+        console.error('Error al hacer la solicitud a la API de OpenAI:', err);
+
         return "Ocurrió un error al procesar tu solicitud.";
     }
 }
 
-sendMsg("HOLA DOCTOR CÓMO ESTÁ?")
+//Testing OpenAI
+//sendMsg("HOLA DOCTOR CÓMO ESTÁ?")
 
 module.exports = { sendMsg };

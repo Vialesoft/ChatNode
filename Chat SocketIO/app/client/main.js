@@ -12,7 +12,7 @@ function render(data) {
     var html = data.map(function(message, index){
         let retorno = "<div class='message'>";
         retorno += "<strong>" + message.nickname + "</strong> dice:";
-        retorno += "<p>" + message.texto + "</p>";
+        retorno += "<p>" + message.text + "</p>";
         retorno += "</div>";
 
         return (retorno);
@@ -27,7 +27,7 @@ function render(data) {
 function addMessage(e) {
     var mensaje = {
         nickname: document.getElementById("nickname").value,
-        texto: document.getElementById("text").value
+        text: document.getElementById("text").value
     }
 
     document.getElementById("nickname").disabled = true;

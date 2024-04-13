@@ -15,32 +15,29 @@ var possibleAnswers = [
     "Qué paja estarte contestando"
 ];
 
-
-/* - Interfaz - */
+/* - Interface - */
 async function sendMsg(msg) {
-    let answer = await askChatGPT(msg);
+    let answer = answerMessage(msg);
     console.log(answer);
 
     return answer;
 }
 
-function answerMessage(message){
-    let answer;
+function answerMessage(message) {
+    /*
+    To-Do: now answers are completely random, we're not using the message
+    But in the future we can add some logic to answer, with or without using AI and we'll need the message
+    */
+    
     let answerPos = getRandomNumber();
 
-    // answer = {
-    //     nickname: "SoyElBot",
-    //     texto: possibleAnswers[answerPos]
-    // };
-    // messages.push(answer);
-
-    // io.sockets.emit("messages", [answer]);
+    let answer = possibleAnswers[answerPos];
+    
+    return answer;
 }
-
 
 function getRandomNumber(){
     return Math.floor(Math.random() * possibleAnswers.length);
 }
-
 
 module.exports = { sendMsg };
