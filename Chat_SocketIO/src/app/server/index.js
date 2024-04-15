@@ -20,8 +20,6 @@ app.use(express.static('client'));
 var messages = [serverConfig.firstMessage];
 
 io.on('connection', function (socket) {
-    //console.log("El nodo de socket es un socket del nodo" + socket.handshake.address);
-
     socket.emit("messages", messages);
     socket.on('add-message', function (data) {
         addMessage(data);
